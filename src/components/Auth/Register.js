@@ -9,7 +9,8 @@ class Register extends React.Component {
         email: '',
         password: '',
         passwordConfirmation: '',
-        errors: []
+        errors: [],
+        loading: false
     };
 
     handleChange = (event) => {
@@ -55,22 +56,33 @@ class Register extends React.Component {
     };
 
     handleSubmit = (event) => {
+        event.preventDefault();
         if(this.isFormValid()){
-            event.preventDefault();
+            this.setState({
+               errors: [],
+               loading: true
+            });
             firebase
                 .auth()
                 .createUserWithEmailAndPassword(this.state.email, this.state.password)
                 .then(createdUser => {
                     console.log(createdUser);
+                    this.setState({
+                        loading: false
+                    })
                 })
                 .catch(err => {
-                    console.error(err)
+                    console.error(err);
+                    this.setState({
+                        errors: this.state.errors.concat(err),
+                        loading: false
+                    })
                 })
         }
     };
 
     render(){
-        const { username, email, password, passwordConfirmation, errors } = this.state;
+        const { username, email, password, passwordConfirmation, errors, loading } = this.state;
 
         return(
             <Grid textAlign="center" verticalAlign="middle" className="app">
@@ -93,7 +105,7 @@ class Register extends React.Component {
                             <Form.Input fluid name="passwordConfirmation" icon="repeat" iconPosition="left"
                                         placeholder="Password Confirmation" value={passwordConfirmation} onChange={this.handleChange} type="password"/>
 
-                            <Button color="orange" fluid size="large">Submit</Button>
+                            <Button disabled={loading} className={loading ? 'loading' : ''} color="orange" fluid size="large">Submit</Button>
                         </Segment>
                     </Form>
                     {errors.length > 0 && (
