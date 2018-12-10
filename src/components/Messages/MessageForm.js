@@ -7,6 +7,7 @@ class MessageForm extends React.Component {
         message: '',
         user: this.props.currentUser,
         channel: this.props.currentChannel,
+        messageRef: this.props.messageRef,
         loading: false,
         errors: []
     };
@@ -62,14 +63,38 @@ class MessageForm extends React.Component {
             })
         }
     };
+/*
+    componentDidMount() {
+        const { channel, user } = this.state;
+
+        if(channel && user) {
+            this.addListeners(channel.id)
+        }
+    }
+
+    addListeners = channelId => {
+        this.addMessageListener(channelId);
+    };
+
+    addMessageListener = channelId => {
+        let loadedMessages = [];
+        this.state.messageRef.child(channelId).on('child_added', snap => {
+            loadedMessages.push(snap.val());
+            this.setState({
+                messages: loadedMessages,
+                messagesLoading: false
+            })
+        })
+    };*/
 
     render(){
-        const { errors } = this.state;
+        const { errors, message, loading } = this.state;
 
         return (
             <Segment className="message__form">
                 <Input
                     onChange={this.handleChange}
+                    value={message}
                     fluid
                     name="message"
                     style={{ marginBottom: '0.7em' }}
@@ -87,6 +112,7 @@ class MessageForm extends React.Component {
                         content="Add Reply"
                         labelPosition="left"
                         icon="edit"
+                        disabled={loading}
                     />
                     <Button
                         color="teal"
