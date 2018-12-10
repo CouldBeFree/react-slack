@@ -1,9 +1,9 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './components/App';
-import Login from './components/Auth/Login'
-import Spinner from './Spinner'
-import Register from './components/Auth/Register'
+import Login from './components/Auth/Login';
+import Spinner from './Spinner';
+import Register from './components/Auth/Register';
 import registerServiceWorker from './registerServiceWorker';
 import firebase from './firebase';
 
