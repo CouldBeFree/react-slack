@@ -1,5 +1,6 @@
 import React from 'react';
 import firebase from '../../firebase';
+import FileModal from './FileModal';
 import { Segment, Button, Input } from 'semantic-ui-react';
 
 class MessageForm extends React.Component {
@@ -9,8 +10,13 @@ class MessageForm extends React.Component {
         channel: this.props.currentChannel,
         messageRef: this.props.messageRef,
         loading: false,
-        errors: []
+        errors: [],
+        modal: false
     };
+
+    openModal = () => this.setState({ modal: true });
+
+    closeModal = () => this.setState({ modal: false });
 
     handleChange = event => {
         this.setState({
@@ -63,32 +69,9 @@ class MessageForm extends React.Component {
             })
         }
     };
-/*
-    componentDidMount() {
-        const { channel, user } = this.state;
-
-        if(channel && user) {
-            this.addListeners(channel.id)
-        }
-    }
-
-    addListeners = channelId => {
-        this.addMessageListener(channelId);
-    };
-
-    addMessageListener = channelId => {
-        let loadedMessages = [];
-        this.state.messageRef.child(channelId).on('child_added', snap => {
-            loadedMessages.push(snap.val());
-            this.setState({
-                messages: loadedMessages,
-                messagesLoading: false
-            })
-        })
-    };*/
 
     render(){
-        const { errors, message, loading } = this.state;
+        const { errors, message, loading, modal } = this.state;
 
         return (
             <Segment className="message__form">
@@ -102,7 +85,7 @@ class MessageForm extends React.Component {
                     labelPosition="left"
                     placeholder="Write your message"
                     className={
-                        errors.some(error => error.includes('message')) ? 'error' : ''
+                        errors.some(error => error.message.includes('message')) ? 'error' : ''
                     }
                 />
                 <Button.Group icon widths="2">
@@ -119,6 +102,11 @@ class MessageForm extends React.Component {
                         content="Upload Media"
                         labelPosition="right"
                         icon="cloud upload"
+                        onClick={this.openModal}
+                    />
+                    <FileModal
+                        modal={modal}
+                        closeModal={this.closeModal}
                     />
                 </Button.Group>
             </Segment>
