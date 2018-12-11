@@ -12,7 +12,6 @@ body,
 }
 
 /* MessagesForm.js */
-
 .message__form{
     position: fixed!important;
     bottom: 1em;
@@ -33,7 +32,11 @@ body,
 }
 
 /* ProgressBra.js */
-
 .progress__bar {
     margin: 0.3em 0 0 0 !important;
+}
+
+/* SidePanel.js */
+.menu{
+    padding-bottom: 2em;
 }

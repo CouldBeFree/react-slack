@@ -47,7 +47,7 @@ class Messages extends React.Component {
             }
             return acc;
         }, []);
-        this.setState({ searchResults })
+        this.setState({ searchResults });
         setTimeout(() => this.setState({ searchLoading: false }), 1000);
     };
 
